@@ -1,3 +1,5 @@
+package net.deeppay
+
 import akka.actor.ActorSystem
 import akka.event.{LoggingAdapter, Logging}
 import akka.http.scaladsl.Http
