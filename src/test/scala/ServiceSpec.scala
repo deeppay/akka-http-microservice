@@ -14,7 +14,6 @@ class ServiceSpec extends FlatSpec with Matchers with ScalatestRouteTest with Se
 
   val ip1Info = IpInfo("8.8.8.8", Option("United States"), Option("Mountain View"), Option(37.386), Option(-122.0838))
   val ip2Info = IpInfo("8.8.4.4", Option("United States"), None, Option(38.0), Option(-97.0))
-  val ipPairSummary = IpPairSummary(ip1Info, ip2Info)
 
   override lazy val ipApiConnectionFlow = Flow[HttpRequest].map { request =>
     if (request.uri.toString().endsWith(ip1Info.query))
@@ -39,26 +38,8 @@ class ServiceSpec extends FlatSpec with Matchers with ScalatestRouteTest with Se
     }
   }
 
-  it should "respond to IP pair query" in {
-    Post(s"/ip", IpPairSummaryRequest(ip1Info.query, ip2Info.query)) ~> routes ~> check {
-      status shouldBe OK
-      contentType shouldBe `application/json`
-      responseAs[IpPairSummary] shouldBe ipPairSummary
-    }
-  }
-
   it should "respond with bad request on incorrect IP format" in {
     Get("/ip/asdfg") ~> routes ~> check {
-      status shouldBe BadRequest
-      responseAs[String].length should be > 0
-    }
-
-    Post(s"/ip", IpPairSummaryRequest(ip1Info.query, "asdfg")) ~> routes ~> check {
-      status shouldBe BadRequest
-      responseAs[String].length should be > 0
-    }
-
-    Post(s"/ip", IpPairSummaryRequest("asdfg", ip1Info.query)) ~> routes ~> check {
       status shouldBe BadRequest
       responseAs[String].length should be > 0
     }
