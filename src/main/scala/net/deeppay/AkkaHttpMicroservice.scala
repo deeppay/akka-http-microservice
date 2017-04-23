@@ -16,8 +16,8 @@ import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
 import java.io.IOException
 import scala.concurrent.{ExecutionContextExecutor, Future}
-import scala.math._
 import spray.json.DefaultJsonProtocol
+
 
 case class IpInfo(query: String, country: Option[String], city: Option[String], lat: Option[Double], lon: Option[Double])
 
