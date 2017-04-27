@@ -34,10 +34,6 @@ import scala.concurrent.{Future => ScalaFuture}
 class RecipesDatabase(override val connector: CassandraConnection) extends Database[RecipesDatabase](connector) {
 
   object Recipes extends Recipes with Connector
-  object AdvancedRecipesByTitle extends AdvancedRecipesByTitle with Connector
-  object CompositeKeyRecipes extends CompositeKeyRecipes with Connector
-
-  object SecondaryKeyRecipes extends SecondaryKeyRecipes with Connector
 
   /**
    * Right now you can go for a really neat trick of the trade.
@@ -51,19 +47,6 @@ class RecipesDatabase(override val connector: CassandraConnection) extends Datab
    * trigger the mechanism that connects to Cassandra and gives you back a session.
    */
 
-  // For instance, right now when you want to insert a new recipe.
-  // Say from a JavaScript client with a fancy interface.
-  // You need to insert one record into the actual table.
-  // And another into the author -> id mapping table.
-
-  // This is a trivial example showing how you can map and flatMap your path to glory.
-  // Non blocking, 3 lines of code, 15 seconds of typing effort. Done.
-  /*def store(recipe: Recipe): ScalaFuture[ResultSet] = {
-    for {
-      _ <- AdvancedRecipes.store(recipe).future()
-      byTitle <- AdvancedRecipesByTitle.store(recipe.title, recipe.id).future()
-    } yield byTitle
-  }*/
 }
 
 object RecipesDatabase extends RecipesDatabase(connectors.ContactPoint.local.keySpace("recipes"))
