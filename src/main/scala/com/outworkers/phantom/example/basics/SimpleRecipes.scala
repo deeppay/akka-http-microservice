@@ -48,7 +48,7 @@ abstract class Recipes extends CassandraTable[Recipes, Recipe] with RootConnecto
   object id extends  UUIDColumn(this) with PartitionKey {
     // You can override the name of your key to whatever you like.
     // The default will be the name used for the object, in this case "id".
-    override lazy val name = "the_primary_key"
+    override lazy val name = "id"
   }
 
   // Now we define a column for each field in our case class.
